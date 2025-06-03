@@ -1,0 +1,85 @@
+﻿@page "/QuizzPage/{NickName}"
+@using BlazQuizz.Domain
+@rendermode InteractiveServer
+<div class="container quiz-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+
+            <!-- Card Quiz en cours -->
+            <div class="quiz-card mb-4">
+                <div class="quiz-header">
+                    <h1 class="quiz-title">
+                        <i class="bi bi-lightbulb-fill me-2"></i>
+                        Bienvenue @NickName au BlazQuizz
+                    </h1>
+                    <p class="quiz-subtitle mb-0">Faisons connaissances</p>                     
+                </div>
+
+                <div class="quiz-body">
+                    <div class="quiz-stats">
+                        <div class="quiz-stat">
+                            <div class="quiz-stat-number">@nbQuestionsRepondues</div>
+                            <div class="quiz-stat-label">Question</div>
+                        </div>
+                        <div class="quiz-stat">
+                            <div class="quiz-stat-number">@nbQuestions</div>
+                            <div class="quiz-stat-label">Total</div>
+                        </div>                         
+                    </div>
+                    @if(CurrentQuestion!=null && nbQuestionsRepondues<nbQuestions)
+                    {
+                        <BlazQuizz.Components.Shared.QuizzCard CurrentQuestion="CurrentQuestion"
+                     OnResponse="Etalorsjavaismisajouterreponse"></BlazQuizz.Components.Shared.QuizzCard>
+
+                    }
+                    @if (nbQuestionsRepondues == nbQuestions)
+                    {
+                        @:<h2>FINI!!!!</h2>
+                    }
+                   
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn quiz-btn-secondary" @onclick="previous">
+                            <i class="bi bi-arrow-left"></i>
+                            Précédent
+                        </button>
+                        <button class="quiz-btn quiz-btn-primary" @onclick="next">
+                            Suivant
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+ 
+
+            <!-- Card avec réponses correctes/incorrectes -->
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <h1 class="quiz-title">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        Révision des Réponses
+                    </h1>
+                </div>
+                @foreach (Questions item in ListQuestion.Where(m=>!String.IsNullOrEmpty(m.Reponse)))
+                {
+                    <div class="quiz-body">
+                        <div class="question-number">@item.Id</div>
+                        <h2 class="question-text">
+                           @item.Libelle
+                        </h2>
+
+                        
+
+                        <div class="quiz-option">
+                            <span class="quiz-option-letter"></span>
+                            @item.Reponse
+                            <i class="bi bi-x-circle-fill float-end"></i>
+                        </div>
+                    </div>
+                }
+                
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+﻿@page "/"
+@rendermode InteractiveServer 
+<PageTitle>Home</PageTitle>
+
+<h1>Lancement du Quizz</h1>
+Bienvenue,pour participer au Quizz, veuillez entrer votre nom de joueur<br />
+<input type="text" @bind="_nickName" />
+<br />
+@if(_themes == null)
+{
+    @:Loading...
+}
+else
+{
+    @:Choisir un theme :<br />
+    foreach (var item in _themes)
+    {
+        <input type="radio" @onchange="()=>selectTheme(item.Id)"  name="age" >
+        <label for="age">@item.Nom</label>
+        <br />
+    }
+}
+<br />
+<button class="btn btn-info" @onclick="startQuizz">Commencer >></button>
