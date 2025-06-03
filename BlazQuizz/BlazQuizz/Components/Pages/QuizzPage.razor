@@ -1,4 +1,4 @@
-﻿@page "/QuizzPage/{NickName}"
+﻿@page "/QuizzPage/{NickName}/{Theme}/{ThemeId}"
 @using BlazQuizz.Domain
 @rendermode InteractiveServer
 <div class="container quiz-container">
@@ -10,9 +10,9 @@
                 <div class="quiz-header">
                     <h1 class="quiz-title">
                         <i class="bi bi-lightbulb-fill me-2"></i>
-                        Bienvenue @NickName au BlazQuizz
+                        Bienvenue @NickName
                     </h1>
-                    <p class="quiz-subtitle mb-0">Faisons connaissances</p>                     
+                    <p class="quiz-subtitle mb-0">Voici les questions du thème @Theme</p>                     
                 </div>
 
                 <div class="quiz-body">

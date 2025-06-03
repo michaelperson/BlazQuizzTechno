@@ -8,6 +8,13 @@ namespace BlazQuizz.Components.Pages
         [Parameter]
         [SupplyParameterFromQuery]
         public string NickName { get; set; }
+        [Parameter]
+        [SupplyParameterFromQuery]
+        public string Theme { get; set; }
+        [Parameter]
+        [SupplyParameterFromQuery]
+        public string ThemeId { get; set; }
+
 
         private List<Questions> ListQuestion { get; set; }
         private int nbQuestions { get { return ListQuestion.Count(); } }

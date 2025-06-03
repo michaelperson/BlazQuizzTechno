@@ -28,7 +28,7 @@ namespace BlazQuizz.Components.Pages
 
         public void startQuizz()
         { 
-            _navigationManager?.NavigateTo($"/QuizzPage/{_nickName}",true);
+            _navigationManager?.NavigateTo($"/QuizzPage/{_nickName}/{ThemeChoisi.Nom}/{ThemeChoisi.Id}",true);
         }
 
     }
