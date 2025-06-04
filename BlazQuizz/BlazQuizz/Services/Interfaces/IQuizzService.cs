@@ -6,5 +6,6 @@ namespace BlazQuizz.Services.Interfaces
     {
         Task<IEnumerable<Themes>?> GetThemesAsync();
         Task<RootResponseApiQuizz?> GetQuestions(string Theme);
+        Task<bool> PostQuestion(QuestionAddApi qA);
     }
 }

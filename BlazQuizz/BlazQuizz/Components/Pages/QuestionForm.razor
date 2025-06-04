@@ -1,0 +1,52 @@
+﻿@page "/QuestionForm"
+@rendermode InteractiveServer
+<h3>Ajouter une question </h3>
+@if (!IsSend)
+{
+<EditForm FormName="frmQuestion" Model="LaQuestion"  OnSubmit="SendForm"  >
+    <DataAnnotationsValidator/>
+    <label for="Texte">Votre question :</label>
+    <InputText id="Texte" @bind-value="LaQuestion.Texte" class="form-control"></InputText>
+    <br />
+    <label for="BonneReponse">La bonne réponse est </label>
+    <InputText id="BonneReponse" @bind-value="LaQuestion.Answer" class="form-control"></InputText>
+    <br />
+    <hr />
+    <label for="badAnswer">Quelques mauvaises propositions: </label>
+    <br />
+    1. <InputText @bind-value="LaQuestion.MauvaiseReponse1"
+                  class="form-control"></InputText><br />
+    2. <InputText @bind-value="LaQuestion.MauvaiseReponse2"
+                  class="form-control"></InputText><br />
+    3. <InputText @bind-value="LaQuestion.MauvaiseReponse3"
+                  class="form-control"></InputText><br /> 
+     
+
+     <label for="selTheme">Thème</label>
+    <InputSelect id="selTheme" @bind-Value="LaQuestion.Category" class="form-control">
+        <option>-</option>
+         @foreach (string item in LesThemes)
+        {
+            <option value="@item">@item</option>
+        }
+     </InputSelect>
+     <br />
+     <label for="selDifficulty">Difficulté</label>
+    <InputSelect id="selDifficulty" @bind-Value="LaQuestion.Difficulty" class="form-control">
+        <option>-</option>
+        @foreach (string item in Enum.GetNames(typeof(Difficulty)))
+        {
+            <option value="@item.ToString()">@item</option>
+        }
+    </InputSelect>
+    <br />
+
+
+    <button class="btn quiz-btn-primary">Envoyer</button>
+    <ValidationSummary/>
+</EditForm>
+}
+else
+{
+    <div class="alert alert-info">Question envoyée</div>
+}

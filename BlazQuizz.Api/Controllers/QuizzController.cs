@@ -16,7 +16,7 @@ namespace BlazQuizz.Api.Controllers
                 new Themes(){ Id=1, Nom="Musique", FilterName="musique"},
                 new Themes(){ Id=2, Nom="Cinema", FilterName="tv_cinema"},
                 new Themes(){ Id=3, Nom="Jeux Vidéo", FilterName = "jeux_videos"},
-                new Themes(){ Id=4, Nom="Literature", FilterName=" art_litterature"},
+                new Themes(){ Id=4, Nom="Literature", FilterName="art_litterature"},
             };
             return Ok(lesThemes);
         }

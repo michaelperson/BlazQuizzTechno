@@ -40,8 +40,8 @@ namespace BlazQuizz.Services
         public async Task<RootResponseApiQuizz?> GetQuestions(string Theme)
         {
             HttpClient _client = new HttpClient();
-            _client.BaseAddress = new Uri("https://quizzapi.jomoreschi.fr/api/v1/quiz");
-            HttpResponseMessage response = await _client.GetAsync($"?limit=5&category={Theme}&difficulty=facile");
+            _client.BaseAddress = new Uri("https://quizzapi.jomoreschi.fr/api/v1/");
+            HttpResponseMessage response = await _client.GetAsync($"quiz?limit=5&category={Theme}&difficulty=facile");
             //2.1 S'assurer que nous avons un success
             response.EnsureSuccessStatusCode();
 
@@ -59,6 +59,16 @@ namespace BlazQuizz.Services
                 return null;
             }
              
+        }
+
+        public async Task<bool> PostQuestion(QuestionAddApi qA)
+        {
+            HttpClient _client = new HttpClient();
+            _client.BaseAddress = new Uri("https://quizzapi.jomoreschi.fr/api/v1/");
+            JsonSerializer.Serialize<QuestionAddApi>(qA);
+           HttpResponseMessage message = await _client.PostAsJsonAsync<QuestionAddApi>("create", qA);
+
+            return message.IsSuccessStatusCode;
         }
     }
 }
