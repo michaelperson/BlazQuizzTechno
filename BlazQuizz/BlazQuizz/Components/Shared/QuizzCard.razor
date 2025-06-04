@@ -1,16 +1,14 @@
 ﻿@rendermode InteractiveServer
-<div class="question-number">@CurrentQuestion.Id</div>
+<div class="question-number">@CurrentQuestion.NumQuestion</div>
 <h2 class="question-text">
     @CurrentQuestion.Libelle
 </h2>
-
-<div class="quiz-option">
-    <span class="quiz-option-letter" >A</span>   
-    <button @onclick='()=>Choix("Oui")' class="btn btn-outline-secondary">Oui</button>
-</div>
-
-<div class="quiz-option">
-    <span class="quiz-option-letter">B</span>
-    <button @onclick='()=>Choix("Non")' class="btn btn-outline-secondary">Non</button>
-</div> 
+@foreach (Proposition item in Propositions)
+{
+    <div class="quiz-option">
+        <span class="quiz-option-letter">@item.Letter</span>
+        <button @onclick='()=>Choix(item)' class="btn btn-outline-secondary">@item.Reponse</button>
+    </div>
+}
+ 
  

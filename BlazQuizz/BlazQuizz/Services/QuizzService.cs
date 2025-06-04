@@ -1,5 +1,6 @@
 ﻿using BlazQuizz.Domain;
 using BlazQuizz.Services.Interfaces;
+using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -34,6 +35,30 @@ namespace BlazQuizz.Services
             }
            
 
+        }
+    
+        public async Task<RootResponseApiQuizz?> GetQuestions(string Theme)
+        {
+            HttpClient _client = new HttpClient();
+            _client.BaseAddress = new Uri("https://quizzapi.jomoreschi.fr/api/v1/quiz");
+            HttpResponseMessage response = await _client.GetAsync($"?limit=5&category={Theme}&difficulty=facile");
+            //2.1 S'assurer que nous avons un success
+            response.EnsureSuccessStatusCode();
+
+            //2.2 Deserializer le body
+            var jason = await response.Content.ReadAsStringAsync();
+            if (jason != null)
+            {
+                RootResponseApiQuizz? Quizzes = JsonSerializer.Deserialize<RootResponseApiQuizz>(jason);
+
+                //3 - retourner les themes
+                return Quizzes;
+            }
+            else
+            {
+                return null;
+            }
+             
         }
     }
 }

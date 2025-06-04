@@ -4,6 +4,7 @@ namespace BlazQuizz.Services.Interfaces
 {
     public interface IQuizzService
     {
-        public Task<IEnumerable<Themes>?> GetThemesAsync();
+        Task<IEnumerable<Themes>?> GetThemesAsync();
+        Task<RootResponseApiQuizz?> GetQuestions(string Theme);
     }
 }

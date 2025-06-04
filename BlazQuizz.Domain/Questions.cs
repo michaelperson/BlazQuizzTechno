@@ -9,13 +9,23 @@ namespace BlazQuizz.Domain
 {
     public class Questions
     {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
+        [JsonPropertyName("_id")]
+        public string Id { get; set; }
 
-        [JsonPropertyName("libelle")]
+        [JsonPropertyName("question")]
         public string Libelle { get; set; }
 
-        [JsonPropertyName("reponse")]
-        public string Reponse { get; set; }
+        [JsonPropertyName("answer")]
+        public string Answer { get; set; }
+
+        [JsonPropertyName("badAnswers")]
+        public List<string> BadAnswer { get; set; }
+
+
+        [JsonIgnore]
+        public Proposition Reponse { get; set; }
+
+        [JsonIgnore]
+        public int NumQuestion { get; set; }
     }
 }

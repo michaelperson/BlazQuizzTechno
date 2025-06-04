@@ -1,4 +1,4 @@
-﻿@page "/QuizzPage/{NickName}/{Theme}/{ThemeId}"
+﻿@page "/QuizzPage/{NickName}/{Theme}/{ThemeFilter}"
 @using BlazQuizz.Domain
 @rendermode InteractiveServer
 <div class="container quiz-container">
@@ -28,29 +28,18 @@
                     </div>
                     @if(CurrentQuestion!=null && nbQuestionsRepondues<nbQuestions)
                     {
-                        <BlazQuizz.Components.Shared.QuizzCard CurrentQuestion="CurrentQuestion"
-                     OnResponse="Etalorsjavaismisajouterreponse"></BlazQuizz.Components.Shared.QuizzCard>
+                        <BlazQuizz.Components.Shared.QuizzCard CurrentQuestion="CurrentQuestion" 
+                        OnResponse="ReponseHandler"></BlazQuizz.Components.Shared.QuizzCard>
 
                     }
                     @if (nbQuestionsRepondues == nbQuestions)
                     {
                         @:<h2>FINI!!!!</h2>
                     }
-                   
-                    <div class="quiz-navigation">
-                        <button class="quiz-btn quiz-btn-secondary" @onclick="previous">
-                            <i class="bi bi-arrow-left"></i>
-                            Précédent
-                        </button>
-                        <button class="quiz-btn quiz-btn-primary" @onclick="next">
-                            Suivant
-                            <i class="bi bi-arrow-right"></i>
-                        </button>
-                    </div>
                 </div>
             </div>
 
- 
+
 
             <!-- Card avec réponses correctes/incorrectes -->
             <div class="quiz-card">
@@ -60,24 +49,33 @@
                         Révision des Réponses
                     </h1>
                 </div>
-                @foreach (Questions item in ListQuestion.Where(m=>!String.IsNullOrEmpty(m.Reponse)))
+                @if(ListQuestion!=null)
                 {
-                    <div class="quiz-body">
-                        <div class="question-number">@item.Id</div>
+                    foreach (Questions item in ListQuestion.Where(m=>m.Reponse!=null))
+                    {
+                        string couleur = "green";
+                        if (!item.Reponse.IsCorrect) couleur = "red";
+                        <div class="quiz-body">
+                        <div class="question-number">@item.NumQuestion</div>
                         <h2 class="question-text">
                            @item.Libelle
                         </h2>
-
+                        
                         
 
-                        <div class="quiz-option">
-                            <span class="quiz-option-letter"></span>
-                            @item.Reponse
+                        <div class="quiz-option" >
+
+                                <span class="quiz-option-letter" style="color:@couleur">@item.Reponse.Letter</span>
+                                @item.Reponse.Reponse
+                            @if(!item.Reponse.IsCorrect)
+                            {
+                                @:<br/><u><b>Réponse:</b></u> @item.Answer
+                            }
                             <i class="bi bi-x-circle-fill float-end"></i>
                         </div>
                     </div>
                 }
-                
+                }
             </div>
 
         </div>

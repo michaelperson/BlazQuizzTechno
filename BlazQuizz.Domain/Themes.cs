@@ -10,7 +10,7 @@ namespace BlazQuizz.Domain
         [JsonPropertyName("nom")]
         public string Nom { get; set; }
 
-        [JsonPropertyName("questions")]
-        public IEnumerable<Questions> Questions{ get; set; }
+        [JsonPropertyName("filterName")]
+        public string FilterName { get;set; }
     }
 }

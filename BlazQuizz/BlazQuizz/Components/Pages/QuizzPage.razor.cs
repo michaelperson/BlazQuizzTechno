@@ -1,10 +1,14 @@
-﻿using BlazQuizz.Domain; 
+﻿using BlazQuizz.Domain;
+using BlazQuizz.Services.Interfaces;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazQuizz.Components.Pages
 {
     public partial class QuizzPage
     {
+        [Inject]
+        IQuizzService quizzService { get;set; }
+
         [Parameter]
         [SupplyParameterFromQuery]
         public string NickName { get; set; }
@@ -13,27 +17,26 @@ namespace BlazQuizz.Components.Pages
         public string Theme { get; set; }
         [Parameter]
         [SupplyParameterFromQuery]
-        public string ThemeId { get; set; }
+        public string ThemeFilter { get; set; }
 
-
-        private List<Questions> ListQuestion { get; set; }
-        private int nbQuestions { get { return ListQuestion.Count(); } }
+        private RootResponseApiQuizz? Quizzes { get;set; }
+        private List<Questions>? ListQuestion { get { return Quizzes?.Questions; } }
+        private int? nbQuestions { get { return Quizzes?.NombreDeQuestions; } }
         private int nbQuestionsRepondues { get; set; }
 
         private int QuestionIndex { get; set; }
-        private Questions CurrentQuestion { get; set; }
+        private Questions? CurrentQuestion { get; set; }
 
-        protected override Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-            ListQuestion = new List<Questions>()
+            Quizzes = await quizzService.GetQuestions(ThemeFilter);
+            for (int i = 0; i < Quizzes?.Questions.Count; i++)
             {
-                new Questions() { Id=1, Libelle="As-tu faim?" },
-                new Questions() {Id= 2, Libelle="As-tu froid?" },
-                new Questions() {Id= 3, Libelle="Aime-tu les légumes?" }
-            };
+                Quizzes.Questions[i].NumQuestion = i+1;
+            }
 
             LoadQuestion();
-            return base.OnInitializedAsync();
+             
         }
 
         public void previous()
@@ -53,20 +56,19 @@ namespace BlazQuizz.Components.Pages
         private void LoadQuestion()
         {
             CurrentQuestion = ListQuestion[QuestionIndex];
+            StateHasChanged();
         }
 
         
-        public void Etalorsjavaismisajouterreponse()
+        public void ReponseHandler()
         {
             nbQuestionsRepondues++;
             //Si je suis à la dernière question affihcer uniquement les résultat
-            if(nbQuestionsRepondues== nbQuestions)
+            if(nbQuestionsRepondues!= nbQuestions)
             {
-                //c'est la fin
-            }
-            else
-            //sinon
-            next();
+
+                next();
+            } 
         }
     }
 }
